@@ -327,8 +327,8 @@ from itertools import combinations
 from math import radians, cos, sin, asin, sqrt
 
 # === CONFIG ===
-OPENWEATHER_API_KEY = "065e5c4622f0004c1325dc285e37f180"
-GOOGLE_MAPS_API_KEY = "AIzaSyAFg3UszP0PW7p0I8uG470xe5yhL0t4m8c"
+OPENWEATHER_API_KEY = "YOUR KEY"
+GOOGLE_MAPS_API_KEY = "YOUR KEY"
 EXCEL_FILE = "walmart_dataset_10000_orders.xlsx"
 FUEL_PRICE_DEFAULT = 0.7
 API_DELAY = 1.0
