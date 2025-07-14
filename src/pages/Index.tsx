@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CATEGORY_TO_PRODUCTS, ALL_CATEGORIES } from '../data/productData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +12,7 @@ import heroImage from '@/assets/walmart-hero.jpg';
 const Index = () => {
   const [currentView, setCurrentView] = useState<'landing' | 'customer' | 'admin'>('landing');
   const [orderResults, setOrderResults] = useState<any>(null);
+  const [acceptedOrders, setAcceptedOrders] = useState<any[]>([]);
 
   const handleOrderPlaced = (results: any) => {
     setOrderResults(results);
@@ -18,7 +20,7 @@ const Index = () => {
   };
 
   const handleAcceptOrder = (orderData: any) => {
-    console.log('Order accepted:', orderData);
+    setAcceptedOrders(prev => [...prev, orderData]);
   };
 
   if (currentView === 'customer') {
@@ -34,7 +36,7 @@ const Index = () => {
     return (
       <>
         <Navigation currentView={currentView} onNavigate={setCurrentView} />
-        <AdminPanel orderResults={orderResults} onAcceptOrder={handleAcceptOrder} />
+        <AdminPanel orderResults={orderResults} onAcceptOrder={handleAcceptOrder} acceptedOrders={acceptedOrders} />
       </>
     );
   }
@@ -127,7 +129,7 @@ const Index = () => {
                 variant="hero"
                 size="hero"
                 onClick={() => setCurrentView('customer')}
-                className="group"
+                className="bg-walmart-yellow"
               >
                 <ShoppingBag className="w-6 h-6 mr-2" />
                 Customer Portal
@@ -138,7 +140,7 @@ const Index = () => {
                 variant="glass"
                 size="hero"
                 onClick={() => setCurrentView('admin')}
-                className="group border-white/20 text-white hover:bg-white/10"
+                className="bg-gradient-primary text-white hover:bg-white/10"
               >
                 <Users className="w-6 h-6 mr-2" />
                 Admin Dashboard

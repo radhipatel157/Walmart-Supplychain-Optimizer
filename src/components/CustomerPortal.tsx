@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CATEGORY_TO_PRODUCTS, ALL_CATEGORIES, PRODUCT_TO_SKU } from '../data/productData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -66,242 +67,7 @@ const LOCATION_DATA = {
   "Montrose": [29.7506, -95.3900]
 } as const;
 
-const CATEGORY_TO_PRODUCTS: Record<string, string[]> = {
-  "Beverages": [
-    "Aquafina 12 Pack Iced Tea",
-    "Coca-Cola 12 Pack Cans",
-    "Dr Pepper 12 Pack Cans",
-    "Great Value Apple Juice 1 Gallon",
-    "Great Value Orange Juice 1 Gallon",
-    "Lipton 12 Pack Iced Tea",
-    "Lipton 24 Pack Water",
-    "Pepsi 12 Pack Cans"
-  ],
-  "Pet Supplies": [
-    "Great Value Cat Litter 10 oz",
-    "Great Value Cat Litter 25 lb",
-    "Great Value Pet Treats 25 lb",
-    "Kong Dog Toy",
-    "Nylabone Dog Toy",
-    "Pedigree Cat Food 15 lb",
-    "Pedigree Dog Food 15 lb",
-    "Pedigree Dog Food 20 lb",
-    "Purina Cat Food 15 lb",
-    "Purina Cat Food 20 lb",
-    "Purina Dog Food 15 lb",
-    "Purina Dog Food 20 lb"
-  ],
-  "Bakery": [
-    "Great Value Bagels 12-pack",
-    "Great Value Bread Sourdough 20 oz",
-    "Great Value Bread White 20 oz",
-    "Great Value Donuts 12-pack",
-    "Great Value Donuts 6-pack",
-    "Great Value Muffins 12-pack",
-    "Great Value Muffins 6-pack",
-    "Wonder Bread Sourdough 20 oz",
-    "Wonder Bread Wheat 20 oz",
-    "Wonder Bread White 20 oz"
-  ],
-  "Produce": [
-    "Apples 1 lb container",
-    "Apples per lb",
-    "Bananas 1 lb container",
-    "Bananas per lb",
-    "Blueberries 1 lb container",
-    "Carrots per lb",
-    "Kale 1 head",
-    "Kale 5 oz bag",
-    "Lettuce 1 head",
-    "Lettuce 5 oz bag",
-    "Oranges 1 lb container",
-    "Oranges per lb",
-    "Potatoes 5 lb bag",
-    "Potatoes per lb",
-    "Spinach 1 head",
-    "Spinach 5 oz bag",
-    "Strawberries 1 lb container",
-    "Strawberries per lb",
-    "Sweet Potatoes 5 lb bag"
-  ],
-  "Pharma": [
-    "Advil Allergy Relief 100 ct",
-    "Advil Pain Reliever 50 ct",
-    "Band-Aid Adhesive Bandages 60 ct",
-    "Colgate Toothpaste 6 oz",
-    "Crest Toothpaste 6 oz",
-    "Dove Deodorant 4-pack",
-    "Dove Razor Blades 13.5 oz",
-    "Gerber Baby Food 8 oz",
-    "Gerber Cereal 8 oz",
-    "Gillette Deodorant 13.5 oz",
-    "Gillette Razor Blades 4-pack",
-    "Great Value Baby Formula 24 oz",
-    "Great Value Baby Formula 800 ct",
-    "Great Value Baby Wipes 800 ct",
-    "Great Value Conditioner 20 oz",
-    "Great Value Shampoo 20 oz",
-    "Great Value Supplements Multivitamin 120 ct",
-    "Great Value Supplements Omega-3 120 ct",
-    "Great Value Vitamins Multivitamin 120 ct",
-    "Great Value Vitamins Omega-3 120 ct",
-    "Huggies Diapers Size 3 120 ct",
-    "Huggies Diapers Size 5 100 ct",
-    "Huggies Diapers Size 5 120 ct",
-    "Old Spice Body Wash 4-pack",
-    "Old Spice Razor Blades 4-pack",
-    "Pampers Diapers Size 3 120 ct",
-    "Pampers Diapers Size 5 100 ct",
-    "Tylenol Allergy Relief 100 ct",
-    "Tylenol Pain Reliever 50 ct",
-    "Zyrtec Allergy Relief 50 ct",
-    "Zyrtec Pain Reliever 50 ct"
-  ],
-  "Grocery": [
-    "Campbell's Chicken Noodle Soup 19 oz",
-    "Campbell's Vegetable Soup 19 oz",
-    "Chicken Breast 80/20 per lb",
-    "Chicken Breast Boneless per lb",
-    "Great Value 2% Milk 1 Gallon",
-    "Great Value 2% Milk Half Gallon",
-    "Great Value Bacon 12 oz",
-    "Great Value Beans 10.5 oz",
-    "Great Value Beans 15 oz",
-    "Great Value Brownies 12 oz",
-    "Great Value Canned Fruit 15 oz",
-    "Great Value Cereal 16 oz",
-    "Great Value Cereal 2 lb",
-    "Great Value Cheddar Cheese 16 oz",
-    "Great Value Cheddar Cheese 8 oz",
-    "Great Value Chicken Nuggets 16 oz",
-    "Great Value Chicken Nuggets 48 oz",
-    "Great Value Cookies 12 oz",
-    "Great Value Flour 5 lb",
-    "Great Value Frozen Vegetables 12 oz",
-    "Great Value Greek Yogurt 32 oz",
-    "Great Value Greek Yogurt 6 oz 4-pack",
-    "Great Value Ice Cream 16 oz",
-    "Great Value Ice Cream 32 oz",
-    "Great Value Mozzarella Cheese 8 oz",
-    "Great Value Pasta 2 lb",
-    "Great Value Pasta 32 oz",
-    "Great Value Pizza 16 oz",
-    "Great Value Pizza 32 oz",
-    "Great Value Pizza 48 oz",
-    "Great Value Rice 16 oz",
-    "Great Value Rice 2 lb",
-    "Great Value Sausage 12 oz",
-    "Great Value Skim Milk 1 Gallon",
-    "Great Value Soup 10.5 oz",
-    "Great Value Yogurt 6 oz 4-pack",
-    "Ground Beef Boneless per lb",
-    "Kelloggs Corn Flakes 18 oz",
-    "Kelloggs Oats 18 oz",
-    "Lean Cuisine Lasagna 10.5 oz",
-    "Lean Cuisine Mac & Cheese 10.5 oz",
-    "Pork Chops Boneless per lb",
-    "Progresso Chicken Noodle Soup 19 oz",
-    "Progresso Vegetable Soup 19 oz",
-    "Quaker Corn Flakes 18 oz",
-    "Quaker Oats 18 oz",
-    "Salmon Fillet per lb",
-    "Stouffer's Lasagna 10.5 oz",
-    "Stouffer's Mac & Cheese 10.5 oz",
-    "Tilapia Fillet per lb"
-  ],
-  "Automotive": [
-    "Armor All Tire Shine 16 oz",
-    "Castrol Motor Oil 5W-20 5 qt",
-    "Great Value Car Wash 64 oz",
-    "Great Value Wiper Fluid 64 oz",
-    "Mobil 1 Motor Oil 5W-20 5 qt",
-    "Mobil 1 Motor Oil 5W-30 5 qt"
-  ],
-  "Home": [
-    "All Laundry Detergent 92 fl oz",
-    "Angel Soft Toilet Paper 18 rolls",
-    "Charmin Toilet Paper 18 rolls",
-    "Charmin Toilet Paper 24 rolls",
-    "Coleman Cooler 4-person",
-    "Coleman Cooler 50 qt",
-    "Coleman Tent 50 qt",
-    "Gain Laundry Detergent 100 fl oz",
-    "Gain Laundry Detergent 92 fl oz",
-    "Great Value All-Purpose Cleaner 28 oz",
-    "Great Value All-Purpose Cleaner 32 oz",
-    "Great Value Bed Sheets 4-pack",
-    "Great Value Bed Sheets Queen Size",
-    "Great Value Dish Soap 28 oz",
-    "Great Value Dish Soap 32 oz",
-    "Great Value Pans & Pans Set",
-    "Great Value Pots & Pans Set",
-    "Great Value Towels 4-pack",
-    "Great Value Towels Queen Size",
-    "Instant Pot Air Fryer",
-    "Instant Pot Pressure Cooker",
-    "Instant Pot Stand Mixer",
-    "KitchenAid Air Fryer",
-    "KitchenAid Pressure Cooker",
-    "KitchenAid Stand Mixer",
-    "Ninja Pressure Cooker",
-    "Ozark Trail Tent 4-person",
-    "Ozark Trail Tent 50 qt",
-    "Tide Laundry Detergent 100 fl oz"
-  ],
-  "Toys": [
-    "Barbie Blaster",
-    "Barbie Building Set",
-    "Great Value Basketball",
-    "Great Value Board Game 1000 pieces",
-    "Great Value Board Game Family",
-    "Great Value Puzzle 1000 pieces",
-    "Great Value Puzzle Family",
-    "Great Value Soccer Ball",
-    "Hot Wheels Car Set 5-pack",
-    "Huffy Bicycle Accessories",
-    "LEGO Blaster",
-    "LEGO Building Set",
-    "LEGO Doll",
-    "Nerf Blaster",
-    "Nerf Building Set",
-    "Nerf Doll",
-    "Schwinn Bicycle Accessories"
-  ],
-  "Electronics": [
-    "Apple Laptop Core i5",
-    "Apple MacBook Core i5",
-    "Apple MacBook Core i7",
-    "Apple MacBook M2",
-    "Dell Laptop Core i7",
-    "Dell Laptop M2",
-    "Google Pixel 8 128GB",
-    "Google Pixel 8 256GB",
-    "HP MacBook M2",
-    "LG 55\" 4K Smart TV",
-    "LG 65\" 4K Smart TV",
-    "LG 75\" 4K Smart TV",
-    "Samsung 55\" 4K Smart TV",
-    "TCL 75\" 4K Smart TV",
-    "iPhone 15 128GB"
-  ],
-  "Clothing": [
-    "Adidas Hoodie",
-    "Adidas Running Shoes",
-    "Great Value Socks 3-pack",
-    "Great Value Socks 6-pack",
-    "Great Value T-Shirt 3-pack",
-    "Great Value T-Shirt 6-pack",
-    "Hanes 501 Jeans Men",
-    "Hanes 501 Jeans s",
-    "Hanes Slim Fit Shirt s",
-    "Levis 501 Jeans s",
-    "Levis Slim Fit Shirt Men",
-    "Nike Running Shoes",
-    "Wrangler 501 Jeans Men",
-    "Wrangler Slim Fit Shirt Women",
-    "Wrangler Slim Fit Shirt s"
-  ]
-};
+// CATEGORY_TO_PRODUCTS is now loaded from backend as categoryToProducts
 
 interface CartItem {
   sku: string;
@@ -319,30 +85,35 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onOrderPlaced })
   const [deliveryOption, setDeliveryOption] = useState<'same-day' | 'next-day' | 'flexible'>('same-day');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [orderResult, setOrderResult] = useState<any[] | null>(null); // Store fulfillment options
   const { toast } = useToast();
 
-  // Generate SKU for product
-  const generateSKU = (category: string, productIndex: number): string => {
-    return `SKU_${category.slice(0, 3).toUpperCase()}_${String(productIndex + 1).padStart(3, '0')}`;
-  };
+  // Use static product/category data from productData.ts
+  const [categoryToProducts] = useState<Record<string, string[]>>(CATEGORY_TO_PRODUCTS);
+  // Get SKU for each product from PRODUCT_TO_SKU mapping
+  const getSkuForProduct = (product: string) => PRODUCT_TO_SKU[product] || 'N/A';
 
   // Add product to cart
   const addToCart = (product: string, category: string) => {
-    const categoryProducts = CATEGORY_TO_PRODUCTS[category as keyof typeof CATEGORY_TO_PRODUCTS] || [];
-    const productIndex = categoryProducts.indexOf(product);
-    const sku = generateSKU(category, productIndex);
-
+    const sku = getSkuForProduct(product);
+    if (sku === 'N/A') {
+      toast({
+        title: "Product Error",
+        description: "SKU could not be generated for this product.",
+        variant: "destructive",
+      });
+      return;
+    }
     const existingItem = cart.find(item => item.sku === sku);
     if (existingItem) {
-      setCart(cart.map(item => 
+      setCart(prevCart => prevCart.map(item => 
         item.sku === sku 
           ? { ...item, quantity: item.quantity + 1 }
           : item
       ));
     } else {
-      setCart([...cart, { sku, product, category, quantity: 1 }]);
+      setCart(prevCart => [...prevCart, { sku, product, category, quantity: 1 }]);
     }
-
     toast({
       title: "Added to Cart",
       description: `${product} added to your cart`,
@@ -388,18 +159,28 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onOrderPlaced })
     }
 
     setIsLoading(true);
-    
+    setOrderResult(null); // Reset previous results
+
     try {
       const coordinates = LOCATION_DATA[selectedLocation as keyof typeof LOCATION_DATA];
+      if (!coordinates) {
+        toast({
+          title: "Invalid Location",
+          description: "Selected location is not recognized.",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
       const requestedSkus = cart.map(item => item.sku);
-      
+
       const payload = {
-        requested_skus: requestedSkus,
         location: {
           area: selectedLocation,
           latitude: coordinates[0],
           longitude: coordinates[1]
-        }
+        },
+        requested_skus: requestedSkus
       };
 
       const response = await fetch('http://localhost:5000/process_order', {
@@ -412,6 +193,14 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onOrderPlaced })
 
       if (response.ok) {
         const result = await response.json();
+        // Try to extract fulfillment options
+        if (result && Array.isArray(result.top_combinations)) {
+          setOrderResult(result.top_combinations);
+        } else if (Array.isArray(result)) {
+          setOrderResult(result);
+        } else {
+          setOrderResult([result]);
+        }
         onOrderPlaced(result);
         setCart([]);
         toast({
@@ -522,37 +311,39 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onOrderPlaced })
           {/* Product Categories */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Shop by Category
+              Shop by
             </h2>
-            {Object.entries(CATEGORY_TO_PRODUCTS).map(([category, products]) => (
-              <Card key={category} className="glass-card hover-lift">
-                <CardHeader>
-                  <CardTitle className="text-lg text-primary">{category}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {products.slice(0, 6).map((product, index) => (
-                      <div
-                        key={product}
-                        className="flex items-center justify-between p-4 bg-muted/30 rounded-lg hover-lift"
-                      >
-                        <div>
-                          <p className="font-medium text-sm">{product}</p>
-                          <p className="text-xs text-muted-foreground">SKU: {generateSKU(category, index)}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+              {Object.entries(categoryToProducts).map(([category, products]) => (
+                <Card key={category} className="glass-card">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Package className="w-5 h-5 text-primary" />
+                      {category}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 gap-2">
+                      {products.map((product, index) => (
+                        <div key={product} className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-sm">{product}</p>
+                            <p className="text-xs text-muted-foreground">SKU: {getSkuForProduct(product)}</p>
+                          </div>
+                          <Button
+                            size="sm"
+                            variant="walmart"
+                            onClick={() => addToCart(product, category)}
+                          >
+                            <Plus className="w-4 h-4" />
+                          </Button>
                         </div>
-                        <Button
-                          size="sm"
-                          variant="walmart"
-                          onClick={() => addToCart(product, category)}
-                        >
-                          <Plus className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -567,58 +358,55 @@ export const CustomerPortal: React.FC<CustomerPortalProps> = ({ onOrderPlaced })
             </CardHeader>
             <CardContent>
               {cart.length === 0 ? (
-                <p className="text-muted-foreground text-center py-8">Your cart is empty</p>
+                <div className="text-muted-foreground text-center py-8">Your cart is empty.</div>
               ) : (
                 <div className="space-y-4">
-                  {cart.map((item) => (
-                    <div key={item.sku} className="flex items-center justify-between p-3 bg-muted/20 rounded-lg">
-                      <div className="flex-1">
-                        <p className="font-medium text-sm">{item.product}</p>
-                        <p className="text-xs text-muted-foreground">{item.category}</p>
-                        <p className="text-xs text-muted-foreground">SKU: {item.sku}</p>
+                  {cart.map(item => (
+                    <div key={item.sku} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-muted/20">
+                      <div>
+                        <div className="font-medium text-sm">{item.product}</div>
+                        <div className="text-xs text-muted-foreground">SKU: {item.sku}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => updateQuantity(item.sku, item.quantity - 1)}
-                        >
-                          <Minus className="w-3 h-3" />
-                        </Button>
-                        <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => updateQuantity(item.sku, item.quantity + 1)}
-                        >
-                          <Plus className="w-3 h-3" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => removeFromCart(item.sku)}
-                        >
-                          <X className="w-3 h-3" />
-                        </Button>
+                        <Button size="icon" variant="outline" onClick={() => updateQuantity(item.sku, item.quantity - 1)} disabled={item.quantity <= 1 || isLoading}><Minus className="w-4 h-4" /></Button>
+                        <span className="min-w-[2ch] text-center">{item.quantity}</span>
+                        <Button size="icon" variant="outline" onClick={() => updateQuantity(item.sku, item.quantity + 1)} disabled={isLoading}><Plus className="w-4 h-4" /></Button>
+                        <Button size="icon" variant="destructive" onClick={() => removeFromCart(item.sku)} disabled={isLoading}><X className="w-4 h-4" /></Button>
                       </div>
                     </div>
                   ))}
-                  
-                  <Button
-                    variant="hero"
-                    size="lg"
-                    className="w-full"
-                    onClick={placeOrder}
-                    disabled={isLoading || cart.length === 0}
-                  >
-                    {isLoading ? 'Processing...' : 'Place Order'}
-                  </Button>
                 </div>
               )}
+              <Button
+                className="w-full mt-4"
+                disabled={isLoading || cart.length === 0}
+                onClick={placeOrder}
+              >
+                {isLoading ? 'Processing...' : 'Place Order'}
+              </Button>
             </CardContent>
           </Card>
         </div>
       </div>
+
+      {/* Display order results */}
+      {orderResult && (
+        <div className="mt-8">
+          <h2 className="text-xl font-bold mb-4">Top Fulfillment Options</h2>
+          {orderResult.map((option: any, idx: number) => (
+            <div key={idx} className="mb-4 p-4 border rounded-lg bg-muted/10">
+              <div className="font-semibold">Option {idx + 1} - Total Cost: ${option.total_cost}</div>
+              <div className="mt-2">
+                {Object.entries(option.sku_mapping).map(([node, skus]: [string, any]) => (
+                  <div key={node} className="pl-2">
+                    <span className="font-medium">Node {node}:</span> {skus.join(', ')}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
