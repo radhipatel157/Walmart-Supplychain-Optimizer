@@ -1,73 +1,101 @@
-# Welcome to your Lovable project
+# Walmart Supply Chain Optimization – AI-Powered Fulfillment Engine
 
-## Project info
+## 🚀 Overview
 
-**URL**: https://lovable.dev/projects/c0cc046e-33f6-499d-9837-2b1ee113ff1d
+This project presents an AI-powered decision engine designed to eliminate inefficiencies, fragmentation, and cost leakage within Walmart’s retail supply chain — with a specific focus on last-mile delivery, return bundling, and dynamic fulfillment node selection.
 
-## How can I edit this code?
+Despite Walmart’s massive scale and significant investments in technologies such as Eden, Spark, and Luminate, critical gaps still persist in its supply chain operations. Our solution is built to bridge those gaps using real-time intelligence and optimization strategies.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🎥 Demo Video
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c0cc046e-33f6-499d-9837-2b1ee113ff1d) and start prompting.
+[![Watch the demo]](https://youtu.be/q6AUIC6gOYQ)
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 🔍 Problem Statement
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+The Walmart retail supply chain currently suffers from:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- 🏪 Inefficient Fulfillment Node Selection: Nodes are selected based on static proximity rules, without accounting for real-time cost-effectiveness or dynamic demand.  
+- 🔁 Fragmented Return and Delivery Routes: Returns and deliveries are handled via separate logistical flows, leading to redundant routes, higher fuel usage, and underutilized vehicles.  
+- 📊 Isolated Demand Planning: Demand forecasts are disconnected from actual local inventory movement and fulfillment routing, leading to overstocking and underutilization.
 
-Follow these steps:
+These shortcomings result in:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Increased cost per order  
+- Duplicate delivery/return routes  
+- Overstocking at low-demand locations  
+- Poor driver utilization  
+- Operational overheads amounting to millions annually  
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 💡 Solution
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+We propose an AI-powered smart fulfillment engine that:
+
+- Optimizes Fulfillment Node Selection using dynamic cost-efficiency and real-time stock-demand matching  
+- Bundles Deliveries and Returns to minimize redundant routes and improve vehicle utilization  
+- Implements Demand-Aware Inventory Routing by integrating demand signals with local inventory flow  
+
+---
+
+## 🧠 Features
+
+- 📦 Smart Fulfillment Node Selection  
+- 🔁 AI-Driven Delivery & Return Route Bundling  
+- 📊 Demand-Aware Local Inventory Movement  
+- ⚙ Real-time Optimization Engine  
+- 💰 Significant Reduction in Per-Order Operational Costs  
+
+---
+
+## 🛠 Tech Stack
+
+- Python – Core engine logic and simulation  
+- Pandas, NumPy – Data processing and modeling  
+- NetworkX – Graph-based route optimization  
+- Flask / FastAPI – For prototype API endpoints  
+- React.js – Front-end simulation UI  
+
+---
+
+## 👥 Team
+
+- Shiv Dixit  
+- Radhi Patel
+
+---
+
+## 📈 Impact
+
+With smarter routing and fulfillment node decisions, Walmart can achieve:
+
+- Up to 20% reduction in logistics costs  
+- Improved sustainability via route consolidation  
+- Better stock utilization and demand fulfillment  
+- Scalable decision-making across nodes and regions  
+
+---
+
+## 🧪 How to Run
+
+### Frontend
+
+```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+# Go to the backend folder
+cd backend
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+# Install Python dependencies
+pip install -r requirements.txt
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c0cc046e-33f6-499d-9837-2b1ee113ff1d) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# Run the Flask API
+python app.py 
